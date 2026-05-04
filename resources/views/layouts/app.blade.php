@@ -55,7 +55,7 @@
     <div class="footer-wrapper container-fluid">
         <div class="row">
             <div class="col my-1">
-                <p class="m-0">Dseva &#9829; crafted by <a href="https://tijari.co.id" target="_blank">Tijari</a> Dev</p>
+                <p class="m-0">dibuat oleh yee dengan penuh &#9829;</p>
             </div>
         </div>
     </div>
