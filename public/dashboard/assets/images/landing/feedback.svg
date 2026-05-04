@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64.001" height="64" viewBox="0 0 64.001 64">
+    <g data-name="Give Feedback">
+        <g data-name="Group 4700">
+            <g data-name="rate_review_black_24dp (1)">
+                <path data-name="Path 17370" d="M0 0h36.889v36.889H0z" style="fill:none" transform="translate(12.001 14.844)"/>
+                <path data-name="Path 17371" d="M29.667 2H5.074A3.083 3.083 0 0 0 2 5.074v27.667l6.148-6.148h21.519a3.083 3.083 0 0 0 3.074-3.074V5.074A3.083 3.083 0 0 0 29.667 2zM8.148 20.444v-3.8L18.723 6.073a.761.761 0 0 1 1.091 0l2.721 2.721a.761.761 0 0 1 0 1.091l-10.59 10.559zm16.907 0h-9.99l3.074-3.074h6.917a1.537 1.537 0 0 1 0 3.074z" transform="translate(13.075 15.918)" style="fill:#e6e9ee"/>
+            </g>
+            <g data-name="rate_review_black_24dp (1)">
+                <path data-name="Path 17370" d="M0 0h36.889v36.889H0z" style="fill:none" transform="translate(14.768 13)"/>
+                <path data-name="Path 17371" d="M29.667 2H5.074A3.083 3.083 0 0 0 2 5.074v27.667l6.148-6.148h21.519a3.083 3.083 0 0 0 3.074-3.074V5.074A3.083 3.083 0 0 0 29.667 2zM8.148 20.444v-3.8L18.723 6.073a.761.761 0 0 1 1.091 0l2.721 2.721a.761.761 0 0 1 0 1.091l-10.59 10.559zm16.907 0h-9.99l3.074-3.074h6.917a1.537 1.537 0 0 1 0 3.074z" transform="translate(15.842 14.074)" style="fill:#ffa000"/>
+            </g>
+        </g>
+        <path data-name="Intersection 20" d="M13.015 57.762A32 32 0 0 1 47.491 3.993L15.59 59.249z" transform="translate(0 .001)" style="fill:#f8f9fb;opacity:.12"/>
+    </g>
+</svg>

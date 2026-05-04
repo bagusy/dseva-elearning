@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64.002" height="64" viewBox="0 0 64.002 64">
+    <g data-name="Group 4702">
+        <g data-name="Group 4688">
+            <path data-name="Rectangle 4719" transform="translate(14.001 16.999)" style="fill:none" d="M0 0h35v34H0z"/>
+            <path data-name="Rectangle 4720" transform="translate(14.001 16.999)" style="fill:none" d="M0 0h35v34H0z"/>
+        </g>
+        <g data-name="Group 4693">
+            <g data-name="Group 4692">
+                <g data-name="Group 4689">
+                    <path data-name="Path 17363" d="M30.069 3H3.907A2.915 2.915 0 0 0 1 5.907v11.628h2.907V5.907h26.162v23.255a2.915 2.915 0 0 0 2.907-2.907V5.907A2.915 2.915 0 0 0 30.069 3z" transform="translate(14.83 17.976)" style="fill:#e6e9ee"/>
+                </g>
+                <g data-name="Group 4690" transform="translate(21.644 25.336)">
+                    <circle data-name="Ellipse 1656" cx="5.814" cy="5.814" r="5.814" style="fill:#e6e9ee"/>
+                </g>
+                <g data-name="Group 4691">
+                    <path data-name="Path 17364" d="M21.915 17.267a20.156 20.156 0 0 0-18.575 0A4.318 4.318 0 0 0 1 21.134v4.041h23.256v-4.041a4.318 4.318 0 0 0-2.341-3.867z" transform="translate(14.83 23.418)" style="fill:#e6e9ee"/>
+                </g>
+            </g>
+        </g>
+        <g data-name="co_present_black_24dp">
+            <g data-name="Group 4688">
+                <path data-name="Rectangle 4719" transform="translate(16.001 14)" style="fill:none" d="M0 0h35v35H0z"/>
+                <path data-name="Rectangle 4720" transform="translate(16.001 14)" style="fill:none" d="M0 0h35v35H0z"/>
+            </g>
+            <g data-name="Group 4693">
+                <g data-name="Group 4692">
+                    <g data-name="Group 4689">
+                        <path data-name="Path 17363" d="M30.069 3H3.907A2.915 2.915 0 0 0 1 5.907v11.628h2.907V5.907h26.162v23.255a2.915 2.915 0 0 0 2.907-2.907V5.907A2.915 2.915 0 0 0 30.069 3z" transform="translate(16.574 15.36)" style="fill:#5656e9"/>
+                    </g>
+                    <g data-name="Group 4690" transform="translate(23.388 22.72)">
+                        <circle data-name="Ellipse 1656" cx="5.814" cy="5.814" r="5.814" style="fill:#5656e9"/>
+                    </g>
+                    <g data-name="Group 4691">
+                        <path data-name="Path 17364" d="M21.915 17.267a20.156 20.156 0 0 0-18.575 0A4.318 4.318 0 0 0 1 21.134v4.041h23.256v-4.041a4.318 4.318 0 0 0-2.341-3.867z" transform="translate(16.574 20.802)" style="fill:#5656e9"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+    <path data-name="Intersection 19" d="M13.013 57.763A32 32 0 0 1 47.489 3.994L15.588 59.25z" style="fill:#f8f9fb;opacity:.12" transform="translate(.002)"/>
+</svg>
