@@ -1,66 +1,150 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dseva E-Learning
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Multi-tenant cybersecurity training LMS built on Laravel 9. Companies onboard employees, assign courses by department, track training progress, and issue completion certificates. Includes phishing simulation templates and Wistia/YouTube video support.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Backend:** Laravel 9, PHP 8.0+
+- **Auth:** Laravel Sanctum, Socialite (Google OAuth)
+- **Authorization:** Spatie Laravel-Permission, custom Policies
+- **Database:** MySQL 8+ recommended (uses UUID primary keys); SQLite supported for tests
+- **Cache/Queue:** Redis (predis), database, or file
+- **Frontend:** Vite + Blade + Bootstrap admin theme
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.0.2 or newer with extensions: `pdo_mysql`, `mbstring`, `openssl`, `json`, `xml`, `tokenizer`, `bcmath`
+- Composer 2.x
+- Node.js 16+ and npm
+- MySQL 8+ (or SQLite for local development)
+- Redis (optional, only if `CACHE_DRIVER=redis` or `QUEUE_CONNECTION=redis`)
 
-## Learning Laravel
+## Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bash
+# 1. Clone and install
+git clone https://github.com/bagusy/dseva-elearning.git
+cd dseva-elearning
+composer install
+npm install
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# 2. Environment
+cp .env.example .env
+php artisan key:generate
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Edit .env — at minimum set:
+#   APP_URL=http://localhost:8000
+#   DB_CONNECTION=mysql
+#   DB_DATABASE=dseva_elearning
+#   DB_USERNAME=...
+#   DB_PASSWORD=...
+#
+# To bootstrap an admin via seeder, also set:
+#   ADMIN_EMAIL=admin@yourcompany.com
+#   ADMIN_PASSWORD=ChangeMe!1   (omit to auto-generate; printed once on seed)
+#   ADMIN_NAME=Administrator
+#
+# For Google login (optional):
+#   GOOGLE_CLIENT_ID=...
+#   GOOGLE_CLIENT_SECRET=...
+#   GOOGLE_REDIRECT=http://localhost:8000/callback/google
 
-## Laravel Sponsors
+# 3. Database — create the schema and seed roles + admin
+php artisan migrate
+php artisan db:seed --class=Database\\Seeders\\RoleAndPermissionSeeder
+php artisan db:seed --class=Database\\Seeders\\AdminUserSeeder
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+# Optional: seed sample videos (only runs idempotent insert if ADMIN exists)
+php artisan db:seed --class=Database\\Seeders\\VideoSeeder
 
-### Premium Partners
+# 4. Build assets
+npm run build       # production
+# or
+npm run dev         # watch mode
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+# 5. Serve
+php artisan serve
+```
 
-## Contributing
+The first user created by `AdminUserSeeder` gets `ROLE_ADMIN`. New self-registered users get `ROLE_USER_ADMIN` and must onboard a company before accessing the dashboard.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Roles
 
-## Code of Conduct
+| Role | Purpose |
+|---|---|
+| `ADMIN` | Platform super-admin. Sees all companies, all content. Bypasses policies. |
+| `SUBSCRIPTION_MANAGER` | Manages billing and other users (platform-level). |
+| `COURSE_CREATOR` | Creates and manages courses + quizzes (platform-level content). |
+| `CONTENT_CREATOR` | Creates non-private videos (platform-level library). |
+| `USER_ADMIN` | Tenant administrator: manages company, departments, employees, custom courses, training assignments. |
+| `USER_EMPLOYEE` | End user assigned to training; consumes courses and takes quizzes. |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Permissions are seeded by [`RoleAndPermissionSeeder`](database/seeders/RoleAndPermissionSeeder.php) and enforced via Spatie roles plus per-resource [Policies](app/Policies/) (Course, Quiz, Video, Department, Employee, CourseEnrollment).
 
-## Security Vulnerabilities
+## Key Routes
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Route | Purpose |
+|---|---|
+| `GET /home` | Dashboard (intro videos, quick stats) |
+| `GET /training` | Employee's enrolled trainings, or admin's published courses |
+| `GET /courses` | Course library (custom + global) |
+| `GET /quiz` | Quiz library |
+| `GET /videos` / `GET /videos/list` | Public video catalog / private uploader list |
+| `GET /company/employees` | Tenant employee management |
+| `GET /company/departments` | Tenant department management |
+| `GET /dashboards` | Charts and progress overview |
+| `GET /trainings/{enrollment}` | Resume training (own enrollment only) |
+| `GET /trainings/{enrollment}/certificate` | Download completion certificate |
+| `GET /phishing` | Phishing simulation templates |
+
+API (Sanctum-protected, web auth):
+
+| Route | Purpose |
+|---|---|
+| `GET /api/courses/{course}/videos` | Video picker for course composition |
+| `GET /api/courses/{course}/quiz` | Quiz picker for course composition |
+
+## Tests
+
+```bash
+php artisan key:generate         # if not done yet
+php vendor/bin/phpunit
+```
+
+The suite uses SQLite in-memory (`DB_CONNECTION=sqlite`, `DB_DATABASE=:memory:`) and runs migrations + seeders fresh per test class via `RefreshDatabase`. The bundled [`BugFixSmokeTest`](tests/Feature/BugFixSmokeTest.php) verifies critical IDOR / cross-tenant / mass-assignment fixes.
+
+## Background Jobs
+
+The app dispatches `AssignTraining` jobs from a per-minute scheduled command:
+
+```bash
+# Run scheduler in production (cron entry)
+* * * * * cd /path/to/app && php artisan schedule:run >> /dev/null 2>&1
+```
+
+The command [`assign:course`](app/Console/Commands/AssignCourse.php) is idempotent: it only re-dispatches assignments that are not yet expired and not yet fully assigned (`is_assigned` flag).
+
+For local testing, run the scheduler manually:
+
+```bash
+php artisan schedule:work
+```
+
+Queue worker (uses `QUEUE_CONNECTION=sync` by default; set to `database` or `redis` for production):
+
+```bash
+php artisan queue:work
+```
+
+## Security Notes
+
+- Auth endpoints (`login`, `register`, `password/email`, `password/update`) are throttled at 6 req/min per IP.
+- Email verification is enforced on all dashboard routes (`verified` middleware).
+- All multi-tenant resources are scoped by `company_id` via Policies; cross-tenant access returns 403.
+- Mass-assignment is locked: `User.company_id` and `Course.user_id` cannot be set via request input.
+- API CORS origin should be restricted in `config/cors.php` before production deploy.
+- Passwords must contain uppercase, lowercase, number, and a punctuation character.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Proprietary. All rights reserved.
