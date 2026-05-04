@@ -87,28 +87,24 @@ Permissions are seeded by [`RoleAndPermissionSeeder`](database/seeders/RoleAndPe
 
 ## Demo Accounts (DEV ONLY)
 
-> **WARNING:** these credentials are public in this README. The [`DemoUsersSeeder`](database/seeders/DemoUsersSeeder.php) refuses to run when `APP_ENV=production`, but **never run it on a publicly reachable instance**. Either skip the seeder or rotate every password before exposing the app.
-
-After running:
+[`DemoUsersSeeder`](database/seeders/DemoUsersSeeder.php) creates one user per role plus a demo company with default departments and one employee record, so end-to-end tenant flows can be exercised without manual setup.
 
 ```bash
 php artisan db:seed --class=Database\\Seeders\\DemoUsersSeeder
 ```
 
-The following accounts exist (password is the same for all six):
+The seeder is idempotent and **refuses to run when `APP_ENV=production`**. After it runs it writes a `DEMO_CREDENTIALS.md` file to the project root listing every demo email, role, and the shared password. That file is **`.gitignore`d** — credentials never enter git history through normal use.
 
-| Email | Role | Scope |
-|---|---|---|
-| `admin@dseva.test` | `ADMIN` | Platform super-admin (bypasses all policies) |
-| `subscription@dseva.test` | `SUBSCRIPTION_MANAGER` | Platform billing / user management |
-| `course@dseva.test` | `COURSE_CREATOR` | Platform course + quiz library |
-| `content@dseva.test` | `CONTENT_CREATOR` | Platform video library (non-private) |
-| `tenant@dseva.test` | `USER_ADMIN` | Owns "Dseva Demo Co" (with default departments) |
-| `employee@dseva.test` | `USER_EMPLOYEE` | In "Dseva Demo Co" / IT department |
+To tear everything down (deletes the six demo users, the demo company and its departments, all related employee / assignment / enrollment / quiz-completion rows, and removes `DEMO_CREDENTIALS.md`):
 
-Password for all six: `Password1!`
+```bash
+php artisan dseva:purge-demo-users          # confirms first
+php artisan dseva:purge-demo-users --force  # no prompt
+```
 
-The seeder is idempotent — re-running it will not duplicate users, the demo company, or the demo employee record.
+The purge command also refuses to run in production and is safe to re-run when there is nothing to delete.
+
+> **Do not** seed demo users on any publicly reachable host, even staging. The shared password is trivial.
 
 ## Key Routes
 
