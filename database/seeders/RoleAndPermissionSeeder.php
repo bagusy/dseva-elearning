@@ -27,7 +27,6 @@ class RoleAndPermissionSeeder extends Seeder
             'delete video',
             'assign course',
             'do training',
-            'phishing simulation',
             'manage user',
         ];
         foreach ($permissions as $name) {
@@ -71,7 +70,6 @@ class RoleAndPermissionSeeder extends Seeder
             'delete video',
             'assign course',
             'do training',
-            'phishing simulation',
         ]);
 
         $userEmployee = Role::firstOrCreate(['name' => User::ROLE_USER_EMPLOYEE, 'guard_name' => 'web']);

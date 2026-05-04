@@ -78,10 +78,6 @@ Route::group(['middleware' => ['auth', 'is_active_user', 'verified']], function 
             Route::get('/monthly-videos', function () {
                 return view('uc');
             });
-            Route::get('/phishing', function () {
-                $phishings = \App\Models\PhishingTemplate::orderByDesc('created_at')->get();
-                return view('phising', compact('phishings'));
-            });
             Route::get('/training', [CourseController::class, 'training']);
             Route::get('/training/{course}', [CourseController::class, 'trainingDetail']);
             Route::get('/trainings/{courseEnrollment}', [CourseController::class, 'trainingProgress']);

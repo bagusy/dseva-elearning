@@ -147,16 +147,6 @@
 {{--                      </svg>--}}
 {{--                    </span><span class="pc-mtext">Monthly Video</span></a>--}}
 {{--                </li>--}}
-                @can('phishing simulation')
-                <li class="pc-item">
-                    <a href="/phishing" class="pc-link">
-                    <span class="pc-micon">
-                      <svg class="pc-icon">
-                        <use xlink:href="#custom-direct-inbox"></use>
-                      </svg>
-                    </span><span class="pc-mtext">Phishing</span></a>
-                </li>
-                @endcan
             </ul>
         </div>
     </div>
