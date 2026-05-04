@@ -57,6 +57,10 @@ php artisan db:seed --class=Database\\Seeders\\AdminUserSeeder
 # Optional: seed sample videos (only runs idempotent insert if ADMIN exists)
 php artisan db:seed --class=Database\\Seeders\\VideoSeeder
 
+# Optional (LOCAL / DEV ONLY): seed one demo user per role + a demo company
+# See "Demo Accounts" section below.
+php artisan db:seed --class=Database\\Seeders\\DemoUsersSeeder
+
 # 4. Build assets
 npm run build       # production
 # or
@@ -80,6 +84,31 @@ The first user created by `AdminUserSeeder` gets `ROLE_ADMIN`. New self-register
 | `USER_EMPLOYEE` | End user assigned to training; consumes courses and takes quizzes. |
 
 Permissions are seeded by [`RoleAndPermissionSeeder`](database/seeders/RoleAndPermissionSeeder.php) and enforced via Spatie roles plus per-resource [Policies](app/Policies/) (Course, Quiz, Video, Department, Employee, CourseEnrollment).
+
+## Demo Accounts (DEV ONLY)
+
+> **WARNING:** these credentials are public in this README. The [`DemoUsersSeeder`](database/seeders/DemoUsersSeeder.php) refuses to run when `APP_ENV=production`, but **never run it on a publicly reachable instance**. Either skip the seeder or rotate every password before exposing the app.
+
+After running:
+
+```bash
+php artisan db:seed --class=Database\\Seeders\\DemoUsersSeeder
+```
+
+The following accounts exist (password is the same for all six):
+
+| Email | Role | Scope |
+|---|---|---|
+| `admin@dseva.test` | `ADMIN` | Platform super-admin (bypasses all policies) |
+| `subscription@dseva.test` | `SUBSCRIPTION_MANAGER` | Platform billing / user management |
+| `course@dseva.test` | `COURSE_CREATOR` | Platform course + quiz library |
+| `content@dseva.test` | `CONTENT_CREATOR` | Platform video library (non-private) |
+| `tenant@dseva.test` | `USER_ADMIN` | Owns "Dseva Demo Co" (with default departments) |
+| `employee@dseva.test` | `USER_EMPLOYEE` | In "Dseva Demo Co" / IT department |
+
+Password for all six: `Password1!`
+
+The seeder is idempotent — re-running it will not duplicate users, the demo company, or the demo employee record.
 
 ## Key Routes
 
